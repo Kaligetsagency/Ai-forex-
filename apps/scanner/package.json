@@ -1,0 +1,22 @@
+{
+  "name": "@signal-scanner/scanner",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "@signal-scanner/types": "workspace:*",
+    "dotenv": "^16.3.1",
+    "express": "^5.2.1",
+    "ws": "^8.13.0"
+  },
+  "devDependencies": {
+    "@supabase/supabase-js": "^2.26.0",
+    "@types/express": "^5.0.6",
+    "@types/ws": "^8.5.5",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.0"
+  }
+}

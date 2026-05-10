@@ -1,0 +1,8 @@
+node_modules
+dist
+.next
+.env
+*.log
+build_check.txt
+test_output.txt
+final_test.log
