@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
 
 interface Signal {
   asset: string;
@@ -38,10 +39,17 @@ export default function Dashboard() {
   useEffect(() => {
     if (!isScanning) return;
 
-    // Connect to the real-time SSE stream from the scanner backend
-    const eventSource = new EventSource('http://localhost:3001/events');
+    // Get current user ID from Supabase
+    const setupSSE = async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+            setIsScanning(false);
+            return;
+        }
 
-    eventSource.onmessage = (event) => {
+        const eventSource = new EventSource(`http://localhost:3001/events?userId=${user.id}`);
+
+        eventSource.onmessage = (event) => {
       try {
         const newSignal: Signal = JSON.parse(event.data);
         // Only show signals for selected assets
@@ -60,8 +68,16 @@ export default function Dashboard() {
       setTimeout(() => setIsScanning(false), 5000);
     };
 
+        return eventSource;
+    };
+
+    let es: EventSource | undefined;
+    setupSSE().then(eventSource => {
+        if (eventSource) es = eventSource;
+    });
+
     return () => {
-      eventSource.close();
+      if (es) es.close();
     };
   }, [isScanning, selectedAssets]);
 

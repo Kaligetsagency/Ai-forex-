@@ -26,7 +26,7 @@ export default function LandingPage() {
           <p className="text-gray-300 mb-6">Start your <span className="text-green-400 font-bold">14-Day FREE Trial</span> today!</p>
           <p className="text-sm text-gray-500 mb-8">After trial: 1,000 TSH Daily (Pay via Mobile Money)</p>
 
-          <Link href="/auth" className="block w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 transition transform hover:scale-105">
+          <Link href="/signup" className="block w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 transition transform hover:scale-105">
             Get Started with Phone Number
           </Link>
         </div>
