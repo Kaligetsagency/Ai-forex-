@@ -1,1 +1,0 @@
-No signal detected in mock data

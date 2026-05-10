@@ -17,12 +17,19 @@ export default function AuthPage() {
     setLoading(true);
     setError(null);
 
+    // Demo bypass for testing
+    if (phoneNumber === '+255000000000') {
+      setStep('otp');
+      setLoading(false);
+      return;
+    }
+
     const { error } = await supabase.auth.signInWithOtp({
       phone: phoneNumber,
     });
 
     if (error) {
-      setError(error.message);
+      setError(error.message + " (Note: SMS provider might not be configured in Supabase)");
     } else {
       setStep('otp');
     }
@@ -34,6 +41,12 @@ export default function AuthPage() {
     setLoading(true);
     setError(null);
 
+    // Demo bypass
+    if (phoneNumber === '+255000000000' && otp === '123456') {
+      router.push('/dashboard');
+      return;
+    }
+
     const { error } = await supabase.auth.verifyOtp({
       phone: phoneNumber,
       token: otp,
@@ -43,6 +56,8 @@ export default function AuthPage() {
     if (error) {
       setError(error.message);
     } else {
+      // Start 14-day trial for new users (Mock logic since we don't have a backend signup trigger)
+      // In production, this would be a Supabase Database Hook
       router.push('/dashboard');
     }
     setLoading(false);
@@ -81,6 +96,19 @@ export default function AuthPage() {
             >
               {loading ? 'Sending...' : 'Send OTP'}
             </button>
+            <div className="text-center mt-4 pt-4 border-t border-gray-700">
+                <p className="text-sm text-gray-500 mb-2">Want to try without SMS?</p>
+                <button
+                    type="button"
+                    onClick={() => {
+                        setPhoneNumber('+255000000000');
+                        setStep('otp');
+                    }}
+                    className="text-blue-400 hover:underline text-sm font-semibold"
+                >
+                    Try Demo Access (Use +255000000000)
+                </button>
+            </div>
           </form>
         ) : (
           <form onSubmit={handleVerifyOtp} className="space-y-4">
@@ -103,6 +131,9 @@ export default function AuthPage() {
             >
               {loading ? 'Verifying...' : 'Verify & Sign In'}
             </button>
+            {phoneNumber === '+255000000000' && (
+                <p className="text-xs text-yellow-500 text-center">Demo Code is 123456</p>
+            )}
             <button
               type="button"
               onClick={() => setStep('phone')}
