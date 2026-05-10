@@ -20,7 +20,12 @@ function calculateRSI(data: number[], period: number = 14): number[] {
 
   let avgGain = gains / period;
   let avgLoss = losses / period;
-  rsi[period] = 100 - 100 / (1 + avgGain / avgLoss);
+
+  if (avgLoss === 0) {
+    rsi[period] = avgGain === 0 ? 50 : 100;
+  } else {
+    rsi[period] = 100 - 100 / (1 + avgGain / avgLoss);
+  }
 
   for (let i = period + 1; i < data.length; i++) {
     const diff = data[i] - data[i - 1];
@@ -31,7 +36,12 @@ function calculateRSI(data: number[], period: number = 14): number[] {
 
     avgGain = (avgGain * (period - 1) + gain) / period;
     avgLoss = (avgLoss * (period - 1) + loss) / period;
-    rsi[i] = 100 - 100 / (1 + avgGain / avgLoss);
+
+    if (avgLoss === 0) {
+      rsi[i] = avgGain === 0 ? 50 : 100;
+    } else {
+      rsi[i] = 100 - 100 / (1 + avgGain / avgLoss);
+    }
   }
   return rsi;
 }

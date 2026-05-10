@@ -7,16 +7,18 @@
     "dev": "ts-node src/index.ts"
   },
   "dependencies": {
-    "@signal-scanner/types": "workspace:*",
     "@signal-scanner/database": "workspace:*",
-    "ws": "^8.15.0",
+    "@signal-scanner/types": "workspace:*",
     "@supabase/supabase-js": "^2.40.0",
+    "@types/cors": "^2.8.19",
+    "cors": "^2.8.6",
+    "dotenv": "^16.4.0",
     "express": "^4.18.2",
-    "dotenv": "^16.4.0"
+    "ws": "^8.15.0"
   },
   "devDependencies": {
-    "@types/ws": "^8.5.10",
     "@types/express": "^4.17.21",
+    "@types/ws": "^8.5.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }
